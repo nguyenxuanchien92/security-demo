@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-@Service
+
 public interface IUserService extends IGeneralService<User>, UserDetailsService {
     User findByUserName(String username);
 }

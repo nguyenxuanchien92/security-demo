@@ -35,11 +35,11 @@ public class SecurityApplication {
         List<Role> roles = (List<Role>)roleService.findAll();
         if(roles.isEmpty()){
             Role roleAdmin = new Role();
-            roleAdmin.setName("Role_ADMIN");
+            roleAdmin.setName("ADMIN");
             roleService.save(roleAdmin);
 
             Role roleUser = new Role();
-            roleUser.setName("Role_USER");
+            roleUser.setName("ROLE_USER");
             roleService.save(roleUser);
         }
 
@@ -76,12 +76,4 @@ public class SecurityApplication {
         SpringApplication.run(SecurityApplication.class, args);
     }
 
-    @Bean
-    public IUserService userService(){
-        return new UserService();
-    }
-    @Bean
-    public IRoleService roleService(){
-        return new RoleService();
-    }
 }
