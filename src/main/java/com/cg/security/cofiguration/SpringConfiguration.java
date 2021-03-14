@@ -23,12 +23,12 @@ public class SpringConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/","?").access("hasRole('USER')")
+        http.csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/", "?").access("hasRole('USER')")
                 .antMatchers("/admin/**").access("hasRole('ADMIN')")
-                .and().formLogin().successHandler(customSuccessHandler)
-                .usernameParameter("ssoId").passwordParameter("password")
-                .and().csrf()
-                .and().exceptionHandling().accessDeniedPage("/Access_denied");
+                .and().formLogin().successHandler(customSuccessHandler);
     }
+
+
 }
