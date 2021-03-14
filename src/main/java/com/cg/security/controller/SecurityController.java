@@ -1,26 +1,43 @@
 package com.cg.security.controller;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class SecurityController {
+    private String getPrincipal() {
+        String userName = "";
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-    @GetMapping("/user")
-    public String userPage(){
-        return "user";
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails) principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
     }
-    @GetMapping("/admin")
-    public String adminPage(){
+
+    @GetMapping(value = {"/", "/home"})
+    public String HomePage(Model model) {
+        model.addAttribute("user", getPrincipal());
+        return "welcome";
+    }
+
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    public String adminPage(ModelMap model) {
+        model.addAttribute("user", getPrincipal());
         return "admin";
     }
-    @GetMapping("/")
-    public String homePage(){
-        return "home";
-    }
-    @GetMapping("/accessDenied")
-    public String accessDenied(){
+
+    @RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
+    public String accessDeniedPage(ModelMap model) {
+        model.addAttribute("user", getPrincipal());
         return "access-denied";
     }
-
 }
